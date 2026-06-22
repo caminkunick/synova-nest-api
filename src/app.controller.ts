@@ -2,10 +2,11 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import fs from 'fs';
 import path from 'path';
+import { RedisService } from './redis/redis.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private readonly redisService: RedisService) {}
 
   @Get()
   getStatus() {
@@ -19,7 +20,7 @@ export class AppController {
       status: 'ok',
       version: version,
       current: process.cwd(),
-      // redis: this.redisService.status,
+      redis: this.redisService.status,
     };
   }
 }
