@@ -7,10 +7,18 @@ export class SettingController {
 
   @Get('id/:id')
   async getSettingById(@Param('id') id: string) {
-    const result = await this.settingService.findSettingById(Number(id));
-    return {
-        status: 'ok',
-        data: result,
+    const result = await this.settingService
+      .findSettingById(Number(id))
+      .catch((error) => error);
+    if (result instanceof Error) {
+      return {
+        status: 'error',
+        message: result.message,
+      };
     }
+    return {
+      status: 'ok',
+      data: result,
+    };
   }
 }

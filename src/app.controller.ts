@@ -6,10 +6,13 @@ import { RedisService } from './redis/redis.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly redisService: RedisService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly redisService: RedisService,
+  ) {}
 
   @Get()
-  getStatus() {
+  async getStatus() {
     const packageFile = fs.readFileSync(
       path.join(__dirname, '../package.json'),
       'utf-8',
@@ -19,7 +22,6 @@ export class AppController {
     return {
       status: 'ok',
       version: version,
-      current: process.cwd(),
       redis: this.redisService.status,
     };
   }
