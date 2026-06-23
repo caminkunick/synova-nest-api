@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RedisService } from './redis/redis.service';
 import { SettingModule } from './setting/setting.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PageModule } from './page/page.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true, // Set to false in production
     }),
     SettingModule,
+    PageModule,
   ],
   controllers: [AppController],
   providers: [AppService, RedisService],
