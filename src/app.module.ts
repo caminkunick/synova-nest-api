@@ -6,6 +6,8 @@ import { RedisService } from './redis/redis.service';
 import { SettingModule } from './setting/setting.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PageModule } from './page/page.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -22,6 +24,13 @@ import { PageModule } from './page/page.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'public'),
+      serveRoot: '/public',
+      serveStaticOptions: {
+        fallthrough: false,
+      },
     }),
     SettingModule,
     PageModule,

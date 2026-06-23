@@ -1,13 +1,15 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { PageService } from './page.service';
+import { renderAppToString } from '../../client/src/ssr';
 
 @Controller('page')
 export class PageController {
   constructor(private readonly pageService: PageService) {}
 
   @Get()
-  getPage() {
-    return { message: 'Hello, this is the page controller!' };
+  async getPage() {
+    const data = await this.pageService.getPageById("69cb658178869b63ab4f04fc");
+    return await renderAppToString(data);
   }
 
   @Get('id/:id')
