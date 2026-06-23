@@ -29,7 +29,7 @@ export class SettingController {
     };
   }
 
-  @Put()
+  @Post('update')
   async updateSettingById(@Query('token') token: string) {
     return await this.settingService.updateSettingByToken(token);
   }
