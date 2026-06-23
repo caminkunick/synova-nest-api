@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { SettingService } from './setting.service';
 
 @Controller('setting')
@@ -27,5 +27,31 @@ export class SettingController {
       status: 'ok',
       data: result,
     };
+  }
+
+  @Put()
+  async updateSettingById(@Query('token') token: string) {
+    return await this.settingService.updateSettingByToken(token);
+  }
+
+  @Post('gen/token')
+  async generateSettings(
+    @Body('secret') secret: string,
+    @Body('payload') payload: object,
+  ) {
+    return await this.settingService
+      .generateToken(secret, payload)
+      .then((token) => {
+        return {
+          status: 'ok',
+          token: token,
+        };
+      })
+      .catch((error) => {
+        return {
+          status: 'error',
+          message: error.message,
+        };
+      });
   }
 }
