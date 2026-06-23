@@ -31,7 +31,14 @@ export class SettingController {
 
   @Post('update')
   async updateSettingById(@Query('token') token: string) {
-    return await this.settingService.updateSettingByToken(token);
+    return await this.settingService
+      .updateSettingByToken(token)
+      .catch((error) => {
+        return {
+          status: 'error',
+          message: error.message,
+        };
+      });
   }
 
   @Post('gen/token')
